@@ -1456,7 +1456,7 @@
 
         <!-- ========== 8. TIMELINE ========== -->
         <section id="timeline">
-            <h2 class="section-title">🕰️ Our Timeline</h2>
+            <h2 class="section-title">🕰️ What I want our Timeline to be.....</h2>
             <div class="timeline-horizontal" id="timelineContainer">
                 <!-- Injected via JS -->
             </div>
@@ -1475,8 +1475,8 @@
                     <div class="counter-label">Months</div>
                 </div>
                 <div class="counter-block">
-                    <div class="counter-number" id="counterHours">0</div>
-                    <div class="counter-label">Hours</div>
+                    <div class="counter-number" id="counterYears">0</div>
+                    <div class="counter-label">Years</div>
                 </div>
             </div>
         </section>
@@ -1514,7 +1514,7 @@
             // ============================================
 
             // --- Anniversary date (for love counter) ---
-            const ANNIVERSARY_DATE = "2025-05-10"; // <-- CHANGE THIS to your anniversary date (YYYY-MM-DD)
+            const ANNIVERSARY_DATE = "2024-09-03"; // <-- CHANGE THIS to your anniversary date (YYYY-MM-DD)
 
             // --- Envelope letter text ---
             const ENVELOPE_LETTER_TEXT = `Hey Love,
@@ -1920,17 +1920,31 @@
             function updateLoveCounter() {
                 const anniversary = new Date(ANNIVERSARY_DATE);
                 const now = new Date();
-                const diffMs = now - anniversary;
-                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-                const diffMonths = Math.floor(diffDays / 30.436875); // Average days per month
-                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
 
-                document.getElementById('counterDays').textContent = diffDays.toLocaleString();
-                document.getElementById('counterMonths').textContent = diffMonths.toLocaleString();
-                document.getElementById('counterHours').textContent = diffHours.toLocaleString();
-            }
-            updateLoveCounter();
-            setInterval(updateLoveCounter, 1000);
+                let years = now.getFullYear() - anniversary.getFullYear();
+                let months = now.getMonth() - anniversary.getMonth();
+                let days = now.getDate() - anniversary.getDate();
+
+            // Adjust days if negative
+                if (days < 0) {
+                    months--;
+                    const previousMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                    days += previousMonth.getDate();
+                }
+
+                // Adjust months if negative
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                document.getElementById('counterYears').textContent = years;
+                document.getElementById('counterMonths').textContent = months;
+                document.getElementById('counterDays').textContent = days;
+}
+
+updateLoveCounter();
+setInterval(updateLoveCounter, 1000);
 
             // ============================================
             // 💕 FLOATING HEARTS
